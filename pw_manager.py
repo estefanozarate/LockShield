@@ -4,7 +4,6 @@ import rsa
 import base64
 import os
 import json
-import tkinter as tk
 
 chars = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", 
          "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", 
@@ -46,9 +45,6 @@ def get_key_pairs():
         public_key = rsa.PublicKey.load_pkcs1(public_file.read())
     return (private_key, public_key)
 
-# def generate_encrypted_file(encrypted_message):
-#     with open("encrypted_message", "bw") as encrypted_file:
-#         encrypted_file.write(encrypted_message)
 
 def encrypt_message(text_to_encrypt, public_key):
     """Uses the public key to encrypt the username and password"""
@@ -56,11 +52,6 @@ def encrypt_message(text_to_encrypt, public_key):
     encrypted_message = rsa.encrypt(text_to_encrypt.encode(), public_key)
     return encrypted_message
 
-# def decrypt_message_from_file(private_key):
-
-#     encrypted_message = open("encrypted_message", "rb").read()
-#     clear_text = rsa.decrypt(encrypted_message, private_key)
-#     return clear_text.decode()
 
 def decrypt_user_password(text_to_decrypt, pk):
     """Uses the private key to decrypt the username and password"""
@@ -93,6 +84,7 @@ def recover_user_password(website,user_password, private_key):
     print(f"{website} ==> {user_password_plain_text}")
 
 def store_or_retrieve():
+    """Asks user if they want to store a new user """
     path = input("Would you like to store a new user or retrieve an existing one?")
     if path.lower() == "store":
         return "store"
@@ -120,43 +112,14 @@ def retrieve_user(private_key):
         recover_user_password(website=website_request, user_password=s,private_key=private_key)
 
 def main():
+    """Main logic"""
     generate_key_pairs()
     private_key, public_key = get_key_pairs()
-    # choice = store_or_retrieve()
-    # if choice == "store":
-    #     store_user()
-    # elif choice == "retrieve":
-    #     retrieve_user(private_key)
-
-    root = tk.Tk()
-    root.title("Main Menu")
-
-    def button1_click():
+    choice = store_or_retrieve()
+    if choice == "store":
         store_user(public_key)
-
-    def button2_click():
+    elif choice == "retrieve":
         retrieve_user(private_key)
-
-
-    def clear_widgets():
-        # Clear all existing widgets from the root window
-        for widget in root.winfo_children():
-            widget.destroy()
-
-    # Create a label widget to display some text
-    label = tk.Label(root, text="Would you like to store a new user or retrieve an existing one?")
-    label.pack()
-
-    # Create button 1
-    button1 = tk.Button(root, text="Store", command=button1_click)
-    button1.pack()
-
-    # Create button 2
-    button2 = tk.Button(root, text="Retrieve", command=button2_click)
-    button2.pack()
-
-    root.mainloop()
-
 
 
 
