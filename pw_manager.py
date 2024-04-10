@@ -68,7 +68,7 @@ def store_password(txt_binary, website):
 
 def get_user_password(website):
     """Finds the encrypted username and password based on what website is being input and outputs the b64 version of it"""
-    data_user = ""
+    data_user = "password does not exist"
     my_file = open("user_password_file.json", "r")
     for lines in my_file:
         splitted = lines.strip().split(":")
@@ -76,6 +76,7 @@ def get_user_password(website):
             data_user = splitted[1]
             break
     return data_user
+        
 
 def recover_user_password(website,user_password, private_key):
     """Decrypts username and password"""
@@ -85,17 +86,25 @@ def recover_user_password(website,user_password, private_key):
 
 def store_or_retrieve():
     """Asks user if they want to store a new user """
-    path = input("Would you like to store a new user or retrieve an existing one?")
-    if path.lower() == "store":
-        return "store"
-    elif path.lower() == "retrieve":
-        return "retrieve"
+    path = 0
+    while path not in range(1,3):
+        try:
+            path = int(input("Enter 1 to store a new user and password. Enter 2 to retrieve stored user data."))
+            if path == 1:
+                return 1
+                break
+            elif path == 2:
+                return 2
+                break
+            else:
+                print("Enter 1 or 2.")
+        except ValueError:
+            print("You need to enter 1 or 2.")
         
 def store_user(public_key):
     """Collects info about new user, encrypts it and stores it in the file"""
     web_site_name, username, pw = get_pw_info()
     data_to_encrypt = str(username + "   " + pw)
-    # rsa_keys = get_key_pairs()
     encryped_username_pw = encrypt_message(data_to_encrypt,public_key)
     store_password(encryped_username_pw, web_site_name)
     print("New user and password successfully stored")
@@ -106,66 +115,27 @@ def retrieve_user(private_key):
     if website_request:
         
         time.sleep(1)
-        s =get_user_password(website_request)
-
-        print(f"{website_request} ==> {s}")
-        recover_user_password(website=website_request, user_password=s,private_key=private_key)
+        data_user = get_user_password(website_request)
+        if data_user == "password does not exist":
+            print("Website not stored in the database")
+            retrieve_user(private_key)
+        else:
+            print(f"{website_request} ==> {data_user}")
+            recover_user_password(website=website_request, user_password=data_user,private_key=private_key)
 
 def main():
     """Main logic"""
     generate_key_pairs()
     private_key, public_key = get_key_pairs()
     choice = store_or_retrieve()
-    if choice == "store":
+    if choice == 1:
         store_user(public_key)
-    elif choice == "retrieve":
+    elif choice == 2:
         retrieve_user(private_key)
 
 
 
 
 if __name__ == "__main__":
+    """Run the program"""
     main()
-
-
-
-
-# root = tk.Tk()
-# root.title("Button Click Example")
-
-# # Create a label widget to display some text
-# label = tk.Label(root, text="Would you like to store a new user or retrieve an existing one?")
-# label.pack()
-
-# # Create button 1
-# button1 = tk.Button(root, text="Store", command=store_user)
-# button1.pack()
-
-# # Create button 2
-# button2 = tk.Button(root, text="Retrieve", command=retrieve_user)
-# button2.pack()
-
-# root.mainloop()
-
-#     web_site_name, username, pw = get_pw_info()
-#     data_to_encrypt = str(username + "   " + pw)
-#     rsa_keys = get_key_pairs()
-    # encryped_username_pw = encrypt_message(data_to_encrypt,rsa_keys[1])
-    # print("encrypted text: ", encryped_username_pw)
-#     decrypted_username_pw = rsa.decrypt(encryped_username_pw, rsa_keys[0])
-#     print("decrypt_text:" , decrypted_username_pw)
-    
-#     #saving {website: username, password}
-#     store_password(encryped_username_pw, web_site_name)
-#     time.sleep(1)
-#     print("getting the password back in plain text!...")
-#     time.sleep(1)
-
-#     website_request = str(input("website's name: "))
-
-#     if website_request:
-#         time.sleep(1)
-#         s =get_user_password(website_request)
-
-#         print(f"{website_request} ==> {s}")
-#         recover_user_password(website=website_request, user_password=s)
