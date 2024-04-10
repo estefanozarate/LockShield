@@ -6,6 +6,23 @@ import os
 import json
 from termcolor import colored
 
+
+
+ascii_art_title = """
+           __    __                                    ______                   __                                                               ______             __ 
+          /  |  /  |                                  /      \                 /  |                                                             /      \           /  |
+  ______  $$ |  $$ |  _______  _______  __   __   __ /$$$$$$  |  ______    ____$$ |       _____  ____    ______   _______    ______    ______  /$$$$$$  |  ______  $$ |
+ /      \ $$ |__$$ | /       |/       |/  | /  | /  |$$$  \$$ | /      \  /    $$ |      /     \/    \  /      \ /       \  /      \  /      \ $$ ___$$ | /      \ $$ |
+/$$$$$$  |$$    $$ |/$$$$$$$//$$$$$$$/ $$ | $$ | $$ |$$$$  $$ |/$$$$$$  |/$$$$$$$ |      $$$$$$ $$$$  | $$$$$$  |$$$$$$$  | $$$$$$  |/$$$$$$  |  /   $$< /$$$$$$  |$$ |
+$$ |  $$ |$$$$$$$$ |$$      \$$      \ $$ | $$ | $$ |$$ $$ $$ |$$ |  $$/ $$ |  $$ |      $$ | $$ | $$ | /    $$ |$$ |  $$ | /    $$ |$$ |  $$ | _$$$$$  |$$ |  $$/ $$/ 
+$$ |__$$ |      $$ | $$$$$$  |$$$$$$  |$$ \_$$ \_$$ |$$ \$$$$ |$$ |      $$ \__$$ |      $$ | $$ | $$ |/$$$$$$$ |$$ |  $$ |/$$$$$$$ |$$ \__$$ |/  \__$$ |$$ |       __ 
+$$    $$/       $$ |/     $$//     $$/ $$   $$   $$/ $$   $$$/ $$ |      $$    $$ |      $$ | $$ | $$ |$$    $$ |$$ |  $$ |$$    $$ |$$    $$ |$$    $$/ $$ |      /  |
+$$$$$$$/        $$/ $$$$$$$/ $$$$$$$/   $$$$$/$$$$/   $$$$$$/  $$/        $$$$$$$/       $$/  $$/  $$/  $$$$$$$/ $$/   $$/  $$$$$$$/  $$$$$$$ | $$$$$$/  $$/       $$/ 
+$$ |                                                                                                                                 /  \__$$ |                        
+$$ |                                                                                                                                 $$    $$/                         
+$$/                                                                                                                                   $$$$$$/                          
+
+"""
 chars = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", 
          "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", 
          "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", 
@@ -15,7 +32,6 @@ chars = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
          "%", "&", "'", "(", ")", "*", "+", ",", "-", ".", "/", 
          ";", "<", "=", ">", "?", "@", "[", "\\", "]", "^", "_", 
          "`", "{", "|", "}", "~"]
-
 
 def get_pw_info():
     """Collects info about the website and creates a randomized password"""
@@ -30,8 +46,6 @@ def get_pw_info():
         password = password + new_char
     print(colored(f"Secure password generated: {password}","light_green"))
     return (web_site, username, password)
-
-
 
 def generate_key_pairs():
     """Generates key pairs"""
@@ -53,13 +67,11 @@ def get_key_pairs():
         public_key = rsa.PublicKey.load_pkcs1(public_file.read())
     return (private_key, public_key)
 
-
 def encrypt_message(text_to_encrypt, public_key):
     """Uses the public key to encrypt the username and password"""
 
     encrypted_message = rsa.encrypt(text_to_encrypt.encode(), public_key)
     return encrypted_message
-
 
 def decrypt_user_password(text_to_decrypt, pk):
     """Uses the private key to decrypt the username and password"""
@@ -85,7 +97,6 @@ def get_user_password(website):
             break
     return data_user
         
-
 def recover_user_password(website,user_password, private_key):
     """Decrypts username and password"""
     user_password_binary_mode = base64.b64decode(user_password)
@@ -157,9 +168,8 @@ def main():
         print(colored("Retrieving stored username and password...","light_blue"))
         retrieve_user(private_key)
 
-
-
 if __name__ == "__main__":
     """Run the program"""
+    print(colored(ascii_art_title, "yellow"))
     print(colored("Welcome to Mysterio Password Manager V.0.1","light_magenta"))
     main()
