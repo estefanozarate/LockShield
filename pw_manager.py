@@ -4,24 +4,29 @@ import rsa
 import base64
 import os
 import json
+from termcolor import colored
+
+# print(colored("hello world", "red"))
 
 chars = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", 
          "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", 
          "w", "x", "y", "z","0", "1", "2", "3", "4", "5", "6", "7",
          "8", "9","!", "\"", "#", "$", "%", "&", "'", "(", ")", "*", 
-         "+", ",", "-", ".", "/", ":", ";", "<", "=", ">", "?", "@", 
+         "+", ",", "-", ".", "/", ";", "<", "=", ">", "?", "@", 
          "[", "\\", "]", "^", "_", "`", "{", "|", "}", "~"]
 
 def get_pw_info():
     """Collects info about the website and creates a randomized password"""
-
+    print(colored("Storing new user...","light_blue"))
+    time.sleep(1)
     password =  ""
-    web_site = str(input("name of the website: "))
-    username = str(input("username: "))
+    web_site = str(input(colored("Enter name of the website: ","light_cyan")))
+    username = str(input(colored("Enter your username: ","light_cyan")))
     time.sleep(1)
     for i in range(1,20):
         new_char =  chars[random.randint(1,len(chars))-1]
         password = password + new_char
+    print(colored(f"Secure password generated: {password}","light_green"))
     return (web_site, username, password)
 
 
@@ -34,6 +39,7 @@ def generate_key_pairs():
             public_file.write(public_key.save_pkcs1("PEM")) #using the standard way 
         with open("private_key.pem", "wb") as private_file:
             private_file.write(private_key.save_pkcs1("PEM"))
+        print(colored("Successfully generated keys!","green"))
     else: 
         pass
 
@@ -72,7 +78,7 @@ def get_user_password(website):
     my_file = open("user_password_file.json", "r")
     for lines in my_file:
         splitted = lines.strip().split(":")
-        if splitted[0] == website:
+        if splitted[0].upper() == website.upper():
             data_user = splitted[1]
             break
     return data_user
@@ -82,14 +88,24 @@ def recover_user_password(website,user_password, private_key):
     """Decrypts username and password"""
     user_password_binary_mode = base64.b64decode(user_password)
     user_password_plain_text = decrypt_user_password(user_password_binary_mode, private_key) #decrypting by using the rsa_private_key
-    print(f"{website} ==> {user_password_plain_text}")
+    user_list = user_password_plain_text.split(":")
+    print(colored(
+        f"Your login details for {website} are: ", "light_green") +
+        colored("Username: ", "light_yellow") +
+        colored(f"{user_list[0]} ", "light_green") +
+        colored("Password: ", "light_yellow") +
+        colored(f"{user_list[1]} ", "light_green"))
+    time.sleep(2)
+    print(colored("Returning to main menu...","light_blue"))
+    time.sleep(1)
+    main()
 
 def store_or_retrieve():
     """Asks user if they want to store a new user """
     path = 0
     while path not in range(1,3):
         try:
-            path = int(input("Enter 1 to store a new user and password. Enter 2 to retrieve stored user data."))
+            path = int(input(colored("1. To store a new user ID: Press 1\n2. To retrieve a stored user ID: Press 2 ","light_cyan")))
             if path == 1:
                 return 1
                 break
@@ -104,38 +120,44 @@ def store_or_retrieve():
 def store_user(public_key):
     """Collects info about new user, encrypts it and stores it in the file"""
     web_site_name, username, pw = get_pw_info()
-    data_to_encrypt = str(username + "   " + pw)
+    data_to_encrypt = str(username + ":" + pw)
     encryped_username_pw = encrypt_message(data_to_encrypt,public_key)
     store_password(encryped_username_pw, web_site_name)
-    print("New user and password successfully stored")
+    print(colored("New user and password successfully ecrypted and stored","light_green"))
+    time.sleep(2)
+    print(colored("Returning to main menu...","light_blue"))
+    time.sleep(1)
+    main()
 
 def retrieve_user(private_key):
     """Collects name of website and returns decrypted username and password"""
-    website_request = str(input("website's name: "))
+    website_request = str(input(colored("Which website would you like to access?: ","light_cyan")))
     if website_request:
         
         time.sleep(1)
         data_user = get_user_password(website_request)
         if data_user == "password does not exist":
-            print("Website not stored in the database")
+            print(colored("Website not stored in the database","light_red"))
             retrieve_user(private_key)
         else:
-            print(f"{website_request} ==> {data_user}")
+            print(colored(f"Retrieving encrypted data for {website_request}","light_blue"))
             recover_user_password(website=website_request, user_password=data_user,private_key=private_key)
 
 def main():
     """Main logic"""
+    print(colored("What would you like to do?","light_magenta"))
     generate_key_pairs()
     private_key, public_key = get_key_pairs()
     choice = store_or_retrieve()
     if choice == 1:
         store_user(public_key)
     elif choice == 2:
+        print(colored("Retrieving stored username and password...","light_blue"))
         retrieve_user(private_key)
-
 
 
 
 if __name__ == "__main__":
     """Run the program"""
+    print(colored("Welcome to Mysterio Password Manager V.0.1","light_magenta"))
     main()
