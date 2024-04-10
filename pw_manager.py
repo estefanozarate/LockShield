@@ -23,6 +23,37 @@ $$ |                                                                            
 $$/                                                                                                                                   $$$$$$/                          
 
 """
+
+ascii_pinky_brain = '''
+                                                                                                        .uuu
+                                        z@#"%c                      .uuzm**"""""*%mu..             z*"` .e@#N      
+                                        @!!!R.  #c              .z*"                    ^*c       z    dT!!!!!>     
+                                        '!!!!!!N   "i         u*"                            #s  :"   @?!!!!!!!R     
+                                        t!!!!!!!#u   "i    .@                                  ^$   :R!!!!!!!!!X     
+                                        '!!!!!!!!!#c   "i:#                                      ?> R!!!!!!!!!!X     
+                                        '!!!!!!!!!!!N   @                                         4W!!!!!!!!!!!>     
+                                        '!!!!!!!!!!!!Ru"                                           ?!!!!!!!!!!X      
+                                        'X!!!!!!!!!!!9~                                      .  .  'X!!!!!!!!!6      
+                                        R!!!!!!!!!!tF                                     z$#`   h &!!UR!!!!!F      
+                                        ?!!!!!$X!!!$                                    .@       X $WTR!!!!!X       
+                                        M!!!!!i#U!E  .                                @F        ! FdR!!!!!!f       
+                                        'X!!!!!#c'?u@#"*$N.                         :$          F'9!!!!!!!@        
+                                        9!!!!!!!?NM      ^*c                      dF          ' @!!!!!!!X>        
+                                            R!!!!!!!!&         "e                   d            K          ^N            
+                                            t!!!!!!!#            ^N            :"      .e$"^  Fn!!!!!XP            
+                                            #X!!!!!!ML             *c       z"    .e$$$$$   M'!!!!W*              
+                                                "*UX!!X@t  ^%u.         ""**#).zd$$#$$$$$$$  <\*@**"                
+                                                        'N    4$$$$$@$$$)$$#$$k4$$$$$$$$$E :$                      
+                                                            ?>  "$$$$$$":$$$W$$$ "$$$$$$$$   %                      
+                                                            :"           ? ^#*"  S  "$$$$$     ?                     
+                                                            F            L      d$L            X                     
+                                                            &           t$i    @$$$           f                      
+                                                            *          $$$$$$$$$$\&        @                        
+                                                            '*.      W'$$$$$$$$FM h    u#                          
+                                                                ^*muz* % $$$$$$":    `"                             
+                                                                        # ^**" d                                    
+                                                                        "***"
+'''
 chars = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", 
          "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", 
          "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", 
@@ -171,5 +202,6 @@ def main():
 if __name__ == "__main__":
     """Run the program"""
     print(colored(ascii_art_title, "yellow"))
+    print(colored(ascii_pinky_brain, "light_red"))
     print(colored("Welcome to Mysterio Password Manager V.0.1","light_magenta"))
     main()
