@@ -51,26 +51,32 @@ def decrypt_message_from_file(private_key):
     return clear_text.decode()
 
 def decrypt_user_password(text_to_decrypt, pk):
-    return rsa.decrypt(text_to_decrypt, pk).decode()
+    return rsa.decrypt(text_to_decrypt, pk)
 
 def store_password(txt_binary, website):
     txt_b64 = base64.b64encode(txt_binary).decode()
-    dicc_goes_to_file = {website: txt_b64}
+    str_to_file = str(website + ":" + txt_b64 + '\n')
     with open("user_password_file.json", "a") as f:
-        json.dump(dicc_goes_to_file, f)
+        f.write(str_to_file)
 
 def get_user_password(website):
-    with open("user_password_file.json") as f:
-        data = json.load(f)
-    user_password_b64 = data[website]
-    # b64 -> bytes 
-    user_password_binary_mode =  base64.b64decode(user_password_b64)
-    user_password = decrypt_user_password(user_password_binary_mode, rsa_keys[0])
-    print(f"{website} -> username&password{user_password}")
+    data_user = ""
+    my_file = open("user_password_file.json", "r")
+    for lines in my_file:
+        splitted = lines.strip().split(":")
+        if splitted[0] == website:
+            data_user = splitted[1]
+            break
+    return data_user
+
+def recover_user_password(website,user_password):
+    user_password_binary_mode = base64.b64decode(user_password)
+    user_password_plain_text = decrypt_user_password(user_password_binary_mode, rsa_keys[0]) #decrypting by using the rsa_private_key
+    print(f"{website} ==> {user_password_plain_text}")
 
 if __name__ == "__main__":
     generate_key_pairs()
-    ws, username, pw = get_pw_info()
+    web_site_name, username, pw = get_pw_info()
     data_to_encrypt = str(username + "   " + pw)
     rsa_keys = get_key_pairs()
     encryped_username_pw = encrypt_message(data_to_encrypt,rsa_keys[1])
@@ -78,3 +84,17 @@ if __name__ == "__main__":
     decrypted_username_pw = rsa.decrypt(encryped_username_pw, rsa_keys[0])
     print("decrypt_text:" , decrypted_username_pw)
     
+    #saving {website: username, password}
+    store_password(encryped_username_pw, web_site_name)
+    time.sleep(1)
+    print("getting the password back in plain text!...")
+    time.sleep(1)
+
+    website_request = str(input("website's name: "))
+
+    if website_request:
+        time.sleep(1)
+        s =get_user_password(website_request)
+
+        print(f"{website_request} ==> {s}")
+        recover_user_password(website=website_request, user_password=s)
