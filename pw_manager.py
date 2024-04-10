@@ -6,14 +6,16 @@ import os
 import json
 from termcolor import colored
 
-# print(colored("hello world", "red"))
-
 chars = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", 
          "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", 
-         "w", "x", "y", "z","0", "1", "2", "3", "4", "5", "6", "7",
-         "8", "9","!", "\"", "#", "$", "%", "&", "'", "(", ")", "*", 
-         "+", ",", "-", ".", "/", ";", "<", "=", ">", "?", "@", 
-         "[", "\\", "]", "^", "_", "`", "{", "|", "}", "~"]
+         "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", 
+         "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", 
+         "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", 
+         "3", "4", "5", "6", "7", "8", "9", "!", "\"", "#", "$", 
+         "%", "&", "'", "(", ")", "*", "+", ",", "-", ".", "/", 
+         ";", "<", "=", ">", "?", "@", "[", "\\", "]", "^", "_", 
+         "`", "{", "|", "}", "~"]
+
 
 def get_pw_info():
     """Collects info about the website and creates a randomized password"""
@@ -23,7 +25,7 @@ def get_pw_info():
     web_site = str(input(colored("Enter name of the website: ","light_cyan")))
     username = str(input(colored("Enter your username: ","light_cyan")))
     time.sleep(1)
-    for i in range(1,20):
+    for i in range(1,35):
         new_char =  chars[random.randint(1,len(chars))-1]
         password = password + new_char
     print(colored(f"Secure password generated: {password}","light_green"))
