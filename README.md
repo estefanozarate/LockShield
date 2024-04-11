@@ -1,5 +1,8 @@
 # LockShield Password Manager
 
+    https://raw.githubusercontent.com/estefanozarate/LockShield/main/rsa-program.png
+
+
 LockShield Password Manager is a Python application designed to securely store and manage usernames and passwords using robust encryption methods. It provides users with a secure platform to store their login credentials for various websites and retrieve them when needed.
 
 ## Features
