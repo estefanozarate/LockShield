@@ -53,7 +53,7 @@ def get_pw_info():
         new_char =  chars[random.randint(1,len(chars))-1]
         password = password + new_char
     print(colored(f"Secure password generated: {password}","light_green"))
-    return (web_site, username, password)
+    return (web_site.lower(), username, password)
 
 def generate_key_pairs():
     """Generates key pairs"""
@@ -106,14 +106,11 @@ def get_user_password(website):
     return data_user
 
 def delete_line_by_first_word(website):
-    # Read the content of the file
+    """Deletes the entire line with a matching website name"""
+
     with open("user_password_file.json", 'r') as file:
         lines = file.readlines()
-
-    # Filter out lines that don't start with the target word
-    filtered_lines = [line for line in lines if not line.strip().startswith(website)]
-
-    # Write the modified content back to the file
+    filtered_lines = [line for line in lines if not line.lower().strip().startswith(website)]
     with open("user_password_file.json", 'w') as file:
         file.writelines(filtered_lines)
 
@@ -124,9 +121,9 @@ def recover_user_password(website,user_password, private_key):
     user_list = user_password_plain_text.split(":")
     print(colored(
         f"Your login details for {website} are: ", "light_green") +
-        colored("Username: ", "light_yellow") +
+        colored("\nUsername: ", "light_yellow") +
         colored(f"{user_list[0]} ", "light_green") +
-        colored("Password: ", "light_yellow") +
+        colored("\nPassword: ", "light_yellow") +
         colored(f"{user_list[1]} ", "light_green"))
     time.sleep(2)
     print(colored("Returning to main menu...","light_blue"))
@@ -138,7 +135,7 @@ def store_or_retrieve():
     path = 0
     while path not in range(1,3):
         try:
-            path = int(input(colored("1. To store a new user ID: Press 1: \n2. To retrieve a stored user ID: Press 2: ","light_cyan")))
+            path = int(input(colored("1. Store a new user ID \n2. Retrieve a stored user ID \nEnter 1 or 2: ","light_cyan")))
             if path == 1:
                 return 1
                 break
