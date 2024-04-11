@@ -6,7 +6,7 @@ import os
 import json
 from termcolor import colored
 
-# print(colored("hello world", "red"))
+
 
 chars = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", 
          "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", 
@@ -137,7 +137,7 @@ def retrieve_user(private_key):
         time.sleep(1)
         data_user = get_user_password(website_request)
         if data_user == "password does not exist":
-            print(colored("Website not stored in the database","light_red"))
+            print(colored(f"Website called: {website_request} not stored in the database, perhaps you misspelled it?","light_red"))
             retrieve_user(private_key)
         else:
             print(colored(f"Retrieving encrypted data for {website_request}","light_blue"))
