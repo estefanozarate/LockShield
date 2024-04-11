@@ -3,16 +3,15 @@ import time
 import rsa 
 import base64
 import os
-import json
 from termcolor import colored
 
 
 
 
 ascii_art_title = """
- __                        __                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-|  \                      |  \      ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀      ⣀⣴⣾⣿⣿⣷⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-| $$      ______   _______| $$   __       ⠀⠀⠀⠀⠀⠀⣤⣤⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣤⣤⠀⠀⠀⠀⠀⠀
+ __                        __              ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+|  \                      |  \             ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣴⣾⣿⣿⣷⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+| $$      ______   _______| $$   __        ⠀⠀⠀⠀⠀⣤⣤⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣶⣤⣤⠀⠀⠀⠀⠀⠀
 | $$     /      \ /       | $$  /  \       ⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀
 | $$    |  $$$$$$|  $$$$$$| $$_/  $$       ⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀
 | $$    | $$  | $| $$     | $$   $$        ⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⠀⠀⠀
@@ -23,11 +22,12 @@ ascii_art_title = """
  /      \|  \     |  \        |  \     |  \⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 |  $$$$$$| $$____  \$$ ______ | $$ ____| $$⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣿⣿⣿⣿⣿⣿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 | $$___\$| $$    \|  \/      \| $$/      $$⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣿⣿⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
- \$$    \| $$$$$$$| $|  $$$$$$| $|  $$$$$$$⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀   ⠙⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+ \$$    \| $$$$$$$| $|  $$$$$$| $|  $$$$$$$⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
  _\$$$$$$| $$  | $| $| $$    $| $| $$  | $$
 |  \__| $| $$  | $| $| $$$$$$$| $| $$__| $$
  \$$    $| $$  | $| $$\$$     | $$\$$    $$
   \$$$$$$ \$$   \$$\$$ \$$$$$$$\$$ \$$$$$$$
+
 """
 
 
@@ -41,19 +41,36 @@ chars = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k",
          ";", "<", "=", ">", "?", "@", "[", "\\", "]", "^", "_", 
          "`", "{", "|", "}", "~"]
 
+def check_website_name() -> str:
+    while True:
+        wb = str(input(colored("Enter a valid name of the website: ","light_cyan")))
+        if wb:
+            return wb
+        else:
+            print(colored("[!] Enter a valid website name", "red"))
+            continue
+def get_valid_username() -> str:
+    while True:
+        valid_username =  str(input(colored("Enter your username: ","light_cyan")))
+        if valid_username:
+            return valid_username
+        else:
+            print(colored("[!] Enter a valid username", "red"))
+            continue
+
 def get_pw_info():
     """Collects info about the website and creates a randomized password"""
     print(colored("Storing new user...","light_blue"))
     time.sleep(1)
     password =  ""
-    web_site = str(input(colored("Enter name of the website: ","light_cyan")))
-    username = str(input(colored("Enter your username: ","light_cyan")))
+    web_site = check_website_name()
+    username = get_valid_username()
     time.sleep(1)
     for i in range(1,35):
         new_char =  chars[random.randint(1,len(chars))-1]
         password = password + new_char
     print(colored(f"Secure password generated: {password}","light_green"))
-    return (web_site, username, password)
+    return (web_site.lower(), username, password)
 
 def generate_key_pairs():
     """Generates key pairs"""
@@ -106,14 +123,11 @@ def get_user_password(website):
     return data_user
 
 def delete_line_by_first_word(website):
-    # Read the content of the file
+    """Deletes the entire line with a matching website name"""
+
     with open("user_password_file.json", 'r') as file:
         lines = file.readlines()
-
-    # Filter out lines that don't start with the target word
-    filtered_lines = [line for line in lines if not line.strip().startswith(website)]
-
-    # Write the modified content back to the file
+    filtered_lines = [line for line in lines if not line.lower().strip().startswith(website)]
     with open("user_password_file.json", 'w') as file:
         file.writelines(filtered_lines)
 
@@ -124,9 +138,9 @@ def recover_user_password(website,user_password, private_key):
     user_list = user_password_plain_text.split(":")
     print(colored(
         f"Your login details for {website} are: ", "light_green") +
-        colored("Username: ", "light_yellow") +
+        colored("\nUsername: ", "light_yellow") +
         colored(f"{user_list[0]} ", "light_green") +
-        colored("Password: ", "light_yellow") +
+        colored("\nPassword: ", "light_yellow") +
         colored(f"{user_list[1]} ", "light_green"))
     time.sleep(2)
     print(colored("Returning to main menu...","light_blue"))
@@ -138,7 +152,7 @@ def store_or_retrieve():
     path = 0
     while path not in range(1,3):
         try:
-            path = int(input(colored("1. To store a new user ID: Press 1: \n2. To retrieve a stored user ID: Press 2: ","light_cyan")))
+            path = int(input(colored("1. Store a new user ID \n2. Retrieve a stored user ID \nEnter 1 or 2: ","light_cyan")))
             if path == 1:
                 return 1
                 break
@@ -178,7 +192,6 @@ def store_user(public_key):
             else:
                 print(colored("New user has not been stored, returning to main menu...","light_magenta"))
                 main()
-
     else:
         data_to_encrypt = str(username + ":" + pw)
         encryped_username_pw = encrypt_message(data_to_encrypt,public_key)
@@ -189,9 +202,17 @@ def store_user(public_key):
         time.sleep(1)
         main()
 
+def check_website_requets() -> str:
+    while True:
+        website_user_request = str(input(colored("Which website would you like to access?: ","light_cyan")))
+        if website_user_request:
+            return website_user_request
+        else:
+            print(colored("[!] Enter a valid website", "red"))
+            continue
 def retrieve_user(private_key):
     """Collects name of website and returns decrypted username and password"""
-    website_request = str(input(colored("Which website would you like to access?: ","light_cyan")))
+    website_request = check_website_name()
     if website_request:
         
         time.sleep(1)
@@ -221,5 +242,6 @@ def main():
 if __name__ == "__main__":
     """Run the program"""
     print(colored(ascii_art_title, "yellow"))
-    print(colored("Welcome to Mysterio Password Manager V.0.1","light_magenta"))
+    print(colored("Welcome to LockShield Password Manager V.0.3","light_magenta"))
     main()
+

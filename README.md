@@ -35,4 +35,4 @@ LockShield Password Manager is a Python application designed to securely store a
 2. If storing a new user ID, enter the name of the website and your username. A secure password will be generated for you.
 3. If retrieving a stored user ID, enter the name of the website you want to access, and your decrypted username and password will be displayed.
 
-Enjoy the secure password management provided by LockShield!
+[+] Enjoy the secure password management provided by LockShield!!!
