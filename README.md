@@ -12,14 +12,20 @@ LockShield Password Manager is a Python application designed to securely store a
 ## Installation
 
 1. Clone the repository:
-    $ git clone https://github.com/estefanozarate/LockShield.git
-2. Navigate to the project directory:
-    $ cd lockshield-password-manager
-3. Install the required dependencies:
-    $ pip install -r requirements.txt
-4. Run the application:
-    $ python3 lockshield.py
 
+    $ git clone https://github.com/estefanozarate/LockShield.git
+
+2. Navigate to the project directory:
+
+    $ cd lockshield-password-manager
+
+3. Install the required dependencies:
+
+    $ pip install -r requirements.txt
+
+4. Run the application:
+
+    $ python3 lockshield.py
 
 ## Usage
 
