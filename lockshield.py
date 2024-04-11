@@ -30,6 +30,7 @@ ascii_art_title = """
   \$$$$$$ \$$   \$$\$$ \$$$$$$$\$$ \$$$$$$$
 """
 
+
 chars = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", 
          "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", 
          "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", 
@@ -103,7 +104,19 @@ def get_user_password(website):
             data_user = splitted[1]
             break
     return data_user
-        
+
+def delete_line_by_first_word(website):
+    # Read the content of the file
+    with open("user_password_file.json", 'r') as file:
+        lines = file.readlines()
+
+    # Filter out lines that don't start with the target word
+    filtered_lines = [line for line in lines if not line.strip().startswith(website)]
+
+    # Write the modified content back to the file
+    with open("user_password_file.json", 'w') as file:
+        file.writelines(filtered_lines)
+
 def recover_user_password(website,user_password, private_key):
     """Decrypts username and password"""
     user_password_binary_mode = base64.b64decode(user_password)
@@ -125,7 +138,7 @@ def store_or_retrieve():
     path = 0
     while path not in range(1,3):
         try:
-            path = int(input(colored("1. To store a new user ID: Press 1\n2. To retrieve a stored user ID: Press 2 ","light_cyan")))
+            path = int(input(colored("1. To store a new user ID: Press 1: \n2. To retrieve a stored user ID: Press 2: ","light_cyan")))
             if path == 1:
                 return 1
                 break
@@ -140,14 +153,41 @@ def store_or_retrieve():
 def store_user(public_key):
     """Collects info about new user, encrypts it and stores it in the file"""
     web_site_name, username, pw = get_pw_info()
-    data_to_encrypt = str(username + ":" + pw)
-    encryped_username_pw = encrypt_message(data_to_encrypt,public_key)
-    store_password(encryped_username_pw, web_site_name)
-    print(colored("New user and password successfully ecrypted and stored","light_green"))
-    time.sleep(2)
-    print(colored("Returning to main menu...","light_blue"))
-    time.sleep(1)
-    main()
+    if os.path.exists("user_password_file.json"):
+        if get_user_password(web_site_name) == "password does not exist":
+            data_to_encrypt = str(username + ":" + pw)
+            encryped_username_pw = encrypt_message(data_to_encrypt,public_key)
+            store_password(encryped_username_pw, web_site_name)
+            print(colored("New user and password successfully ecrypted and stored","light_green"))
+            time.sleep(2)
+            print(colored("Returning to main menu...","light_blue"))
+            time.sleep(1)
+            main()
+        else:
+            confirm_delete = input(colored("That website already has a user stored. Would you like to overwrite with new data? Y/N?","light_red")).lower()
+            if confirm_delete.startswith("y"):
+                delete_line_by_first_word(web_site_name)
+                data_to_encrypt = str(username + ":" + pw)
+                encryped_username_pw = encrypt_message(data_to_encrypt,public_key)
+                store_password(encryped_username_pw, web_site_name)
+                print(colored("New user and password successfully ecrypted and stored","light_green"))
+                time.sleep(2)
+                print(colored("Returning to main menu...","light_blue"))
+                time.sleep(1)
+                main()
+            else:
+                print(colored("New user has not been stored, returning to main menu...","light_magenta"))
+                main()
+
+    else:
+        data_to_encrypt = str(username + ":" + pw)
+        encryped_username_pw = encrypt_message(data_to_encrypt,public_key)
+        store_password(encryped_username_pw, web_site_name)
+        print(colored("New user and password successfully ecrypted and stored","light_green"))
+        time.sleep(2)
+        print(colored("Returning to main menu...","light_blue"))
+        time.sleep(1)
+        main()
 
 def retrieve_user(private_key):
     """Collects name of website and returns decrypted username and password"""
@@ -157,7 +197,7 @@ def retrieve_user(private_key):
         time.sleep(1)
         data_user = get_user_password(website_request)
         if data_user == "password does not exist":
-            print(colored("Website not stored in the database","light_red"))
+            print(colored(f"Website called: {website_request} not stored in the database, perhaps you misspelled it?","light_red"))
             retrieve_user(private_key)
         else:
             print(colored(f"Retrieving encrypted data for {website_request}","light_blue"))
@@ -165,9 +205,12 @@ def retrieve_user(private_key):
 
 def main():
     """Main logic"""
-    print(colored("What would you like to do?","light_magenta"))
+    
     generate_key_pairs()
     private_key, public_key = get_key_pairs()
+    if not os.path.exists("user_password_file.json"):
+        store_user(public_key)
+    print(colored("What would you like to do?","light_magenta"))
     choice = store_or_retrieve()
     if choice == 1:
         store_user(public_key)
@@ -177,6 +220,6 @@ def main():
 
 if __name__ == "__main__":
     """Run the program"""
-    print(colored(ascii_art_title, "green"))
+    print(colored(ascii_art_title, "yellow"))
     print(colored("Welcome to Mysterio Password Manager V.0.1","light_magenta"))
-    main() 
+    main()
