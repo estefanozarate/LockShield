@@ -145,9 +145,12 @@ def retrieve_user(private_key):
 
 def main():
     """Main logic"""
-    print(colored("What would you like to do?","light_magenta"))
+    
     generate_key_pairs()
     private_key, public_key = get_key_pairs()
+    if not os.path.exists("user_password_file.json"):
+        store_user(public_key)
+    print(colored("What would you like to do?","light_magenta"))
     choice = store_or_retrieve()
     if choice == 1:
         store_user(public_key)
