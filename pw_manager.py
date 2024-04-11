@@ -8,12 +8,62 @@ from termcolor import colored
 
 
 
+
+ascii_art_title = """
+           __    __                                    ______                   __                                                               ______             __ 
+          /  |  /  |                                  /      \                 /  |                                                             /      \           /  |
+  ______  $$ |  $$ |  _______  _______  __   __   __ /$$$$$$  |  ______    ____$$ |       _____  ____    ______   _______    ______    ______  /$$$$$$  |  ______  $$ |
+ /      \ $$ |__$$ | /       |/       |/  | /  | /  |$$$  \$$ | /      \  /    $$ |      /     \/    \  /      \ /       \  /      \  /      \ $$ ___$$ | /      \ $$ |
+/$$$$$$  |$$    $$ |/$$$$$$$//$$$$$$$/ $$ | $$ | $$ |$$$$  $$ |/$$$$$$  |/$$$$$$$ |      $$$$$$ $$$$  | $$$$$$  |$$$$$$$  | $$$$$$  |/$$$$$$  |  /   $$< /$$$$$$  |$$ |
+$$ |  $$ |$$$$$$$$ |$$      \$$      \ $$ | $$ | $$ |$$ $$ $$ |$$ |  $$/ $$ |  $$ |      $$ | $$ | $$ | /    $$ |$$ |  $$ | /    $$ |$$ |  $$ | _$$$$$  |$$ |  $$/ $$/ 
+$$ |__$$ |      $$ | $$$$$$  |$$$$$$  |$$ \_$$ \_$$ |$$ \$$$$ |$$ |      $$ \__$$ |      $$ | $$ | $$ |/$$$$$$$ |$$ |  $$ |/$$$$$$$ |$$ \__$$ |/  \__$$ |$$ |       __ 
+$$    $$/       $$ |/     $$//     $$/ $$   $$   $$/ $$   $$$/ $$ |      $$    $$ |      $$ | $$ | $$ |$$    $$ |$$ |  $$ |$$    $$ |$$    $$ |$$    $$/ $$ |      /  |
+$$$$$$$/        $$/ $$$$$$$/ $$$$$$$/   $$$$$/$$$$/   $$$$$$/  $$/        $$$$$$$/       $$/  $$/  $$/  $$$$$$$/ $$/   $$/  $$$$$$$/  $$$$$$$ | $$$$$$/  $$/       $$/ 
+$$ |                                                                                                                                 /  \__$$ |                        
+$$ |                                                                                                                                 $$    $$/                         
+$$/                                                                                                                                   $$$$$$/                          
+
+"""
+
+ascii_pinky_brain = '''
+                                                                                                        .uuu
+                                        z@#"%c                      .uuzm**"""""*%mu..             z*"` .e@#N      
+                                        @!!!R.  #c              .z*"                    ^*c       z    dT!!!!!>     
+                                        '!!!!!!N   "i         u*"                            #s  :"   @?!!!!!!!R     
+                                        t!!!!!!!#u   "i    .@                                  ^$   :R!!!!!!!!!X     
+                                        '!!!!!!!!!#c   "i:#                                      ?> R!!!!!!!!!!X     
+                                        '!!!!!!!!!!!N   @                                         4W!!!!!!!!!!!>     
+                                        '!!!!!!!!!!!!Ru"                                           ?!!!!!!!!!!X      
+                                        'X!!!!!!!!!!!9~                                      .  .  'X!!!!!!!!!6      
+                                        R!!!!!!!!!!tF                                     z$#`   h &!!UR!!!!!F      
+                                        ?!!!!!$X!!!$                                    .@       X $WTR!!!!!X       
+                                        M!!!!!i#U!E  .                                @F        ! FdR!!!!!!f       
+                                        'X!!!!!#c'?u@#"*$N.                         :$          F'9!!!!!!!@        
+                                        9!!!!!!!?NM      ^*c                      dF          ' @!!!!!!!X>        
+                                            R!!!!!!!!&         "e                   d            K          ^N            
+                                            t!!!!!!!#            ^N            :"      .e$"^  Fn!!!!!XP            
+                                            #X!!!!!!ML             *c       z"    .e$$$$$   M'!!!!W*              
+                                                "*UX!!X@t  ^%u.         ""**#).zd$$#$$$$$$$  <\*@**"                
+                                                        'N    4$$$$$@$$$)$$#$$k4$$$$$$$$$E :$                      
+                                                            ?>  "$$$$$$":$$$W$$$ "$$$$$$$$   %                      
+                                                            :"           ? ^#*"  S  "$$$$$     ?                     
+                                                            F            L      d$L            X                     
+                                                            &           t$i    @$$$           f                      
+                                                            *          $$$$$$$$$$\&        @                        
+                                                            '*.      W'$$$$$$$$FM h    u#                          
+                                                                ^*muz* % $$$$$$":    `"                             
+                                                                        # ^**" d                                    
+                                                                        "***"
+'''
 chars = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", 
          "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", 
-         "w", "x", "y", "z","0", "1", "2", "3", "4", "5", "6", "7",
-         "8", "9","!", "\"", "#", "$", "%", "&", "'", "(", ")", "*", 
-         "+", ",", "-", ".", "/", ";", "<", "=", ">", "?", "@", 
-         "[", "\\", "]", "^", "_", "`", "{", "|", "}", "~"]
+         "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", 
+         "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", 
+         "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", 
+         "3", "4", "5", "6", "7", "8", "9", "!", "\"", "#", "$", 
+         "%", "&", "'", "(", ")", "*", "+", ",", "-", ".", "/", 
+         ";", "<", "=", ">", "?", "@", "[", "\\", "]", "^", "_", 
+         "`", "{", "|", "}", "~"]
 
 def get_pw_info():
     """Collects info about the website and creates a randomized password"""
@@ -23,13 +73,11 @@ def get_pw_info():
     web_site = str(input(colored("Enter name of the website: ","light_cyan")))
     username = str(input(colored("Enter your username: ","light_cyan")))
     time.sleep(1)
-    for i in range(1,20):
+    for i in range(1,35):
         new_char =  chars[random.randint(1,len(chars))-1]
         password = password + new_char
     print(colored(f"Secure password generated: {password}","light_green"))
     return (web_site, username, password)
-
-
 
 def generate_key_pairs():
     """Generates key pairs"""
@@ -51,13 +99,11 @@ def get_key_pairs():
         public_key = rsa.PublicKey.load_pkcs1(public_file.read())
     return (private_key, public_key)
 
-
 def encrypt_message(text_to_encrypt, public_key):
     """Uses the public key to encrypt the username and password"""
 
     encrypted_message = rsa.encrypt(text_to_encrypt.encode(), public_key)
     return encrypted_message
-
 
 def decrypt_user_password(text_to_decrypt, pk):
     """Uses the private key to decrypt the username and password"""
@@ -82,7 +128,18 @@ def get_user_password(website):
             data_user = splitted[1]
             break
     return data_user
-        
+
+def delete_line_by_first_word(website):
+    # Read the content of the file
+    with open("user_password_file.json", 'r') as file:
+        lines = file.readlines()
+
+    # Filter out lines that don't start with the target word
+    filtered_lines = [line for line in lines if not line.strip().startswith(website)]
+
+    # Write the modified content back to the file
+    with open("user_password_file.json", 'w') as file:
+        file.writelines(filtered_lines)
 
 def recover_user_password(website,user_password, private_key):
     """Decrypts username and password"""
@@ -120,14 +177,41 @@ def store_or_retrieve():
 def store_user(public_key):
     """Collects info about new user, encrypts it and stores it in the file"""
     web_site_name, username, pw = get_pw_info()
-    data_to_encrypt = str(username + ":" + pw)
-    encryped_username_pw = encrypt_message(data_to_encrypt,public_key)
-    store_password(encryped_username_pw, web_site_name)
-    print(colored("New user and password successfully ecrypted and stored","light_green"))
-    time.sleep(2)
-    print(colored("Returning to main menu...","light_blue"))
-    time.sleep(1)
-    main()
+    if os.path.exists("user_password_file.json"):
+        if get_user_password(web_site_name) == "password does not exist":
+            data_to_encrypt = str(username + ":" + pw)
+            encryped_username_pw = encrypt_message(data_to_encrypt,public_key)
+            store_password(encryped_username_pw, web_site_name)
+            print(colored("New user and password successfully ecrypted and stored","light_green"))
+            time.sleep(2)
+            print(colored("Returning to main menu...","light_blue"))
+            time.sleep(1)
+            main()
+        else:
+            confirm_delete = input(colored("That website already has a user stored. Would you like to overwrite with new data? Y/N?","light_red")).lower()
+            if confirm_delete.startswith("y"):
+                delete_line_by_first_word(web_site_name)
+                data_to_encrypt = str(username + ":" + pw)
+                encryped_username_pw = encrypt_message(data_to_encrypt,public_key)
+                store_password(encryped_username_pw, web_site_name)
+                print(colored("New user and password successfully ecrypted and stored","light_green"))
+                time.sleep(2)
+                print(colored("Returning to main menu...","light_blue"))
+                time.sleep(1)
+                main()
+            else:
+                print(colored("New user has not been stored, returning to main menu...","light_magenta"))
+                main()
+
+    else:
+        data_to_encrypt = str(username + ":" + pw)
+        encryped_username_pw = encrypt_message(data_to_encrypt,public_key)
+        store_password(encryped_username_pw, web_site_name)
+        print(colored("New user and password successfully ecrypted and stored","light_green"))
+        time.sleep(2)
+        print(colored("Returning to main menu...","light_blue"))
+        time.sleep(1)
+        main()
 
 def retrieve_user(private_key):
     """Collects name of website and returns decrypted username and password"""
@@ -158,9 +242,9 @@ def main():
         print(colored("Retrieving stored username and password...","light_blue"))
         retrieve_user(private_key)
 
-
-
 if __name__ == "__main__":
     """Run the program"""
-    print(colored("Welcome to Mysterio Password Manager V.0.1","light_magenta"))
+    print(colored(ascii_art_title, "yellow"))
+    print(colored(ascii_pinky_brain, "light_red"))
+    print(colored("Welcome to LockShield Password Manager V.0.1","light_magenta"))
     main()
